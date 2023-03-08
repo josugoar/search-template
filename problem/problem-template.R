@@ -16,7 +16,7 @@ initialize.problem <- function(filename) {
   d <- list()
   for (i in 2:(2 * c + 1)) {
     line <- unlist(strsplit(lines[i], " "))
-    n <- (as.numeric(line[1]) + 1)
+    n <- as.numeric(line[1]) + 1
     if (n == 1) {
       ingredients <- list()
     } else {
