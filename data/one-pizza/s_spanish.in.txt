@@ -1,0 +1,31 @@
+15
+3 JamónYork Champiñón Atún
+1 AceitunasNegras
+2 Atún PimientoRojo
+2 AceitunasNegras Cebolla
+2 JamónYork Pepperoni
+1 Cebolla
+2 Atún Pepperoni
+1 Cebolla
+3 Atún PimientoVerde Ternera
+1 QuesoAzul
+1 Pepperoni 
+1 Cebolla
+2 JamónYork PimientoVerde
+2 QuesoAzul Cebolla
+3 Champiñón Atún Ternera
+0 
+3 Atún JamónYork Ternera
+0 
+3 Pepperoni Atún Champiñón
+1 Cebolla
+2 Pepperoni Bacon
+1 Cebolla
+4 JamónYork Champiñón Pepperoni Bacon
+2 QuesoAzul Cebolla
+2 Pepperoni PimientoVerde
+2 AceitunasNegras QuesoAzul
+2 Atún Ternera
+2 Cebolla QuesoAzul
+4 JamónYork Ternera Bacon Pepperoni
+3 Cebolla QuesoAzul AceitunasNegras
