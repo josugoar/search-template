@@ -35,7 +35,7 @@ initialize.problem <- function(filename) {
   problem$name              <- paste0("One Pizza - [", filename, "]")
   problem$state_initial     <- list()
   problem$state_final       <- NULL
-  problem$actions_possible  <- data.frame(action = unique(c(unlist(l), unlist(d))), stringsAsFactors = FALSE)
+  problem$actions_possible  <- data.frame(action = unique(unlist(l)), stringsAsFactors = FALSE)
   
   # You can add additional attributes
   problem$c  <- c
@@ -67,7 +67,7 @@ effect <- function (state, action, problem) {
 is.final.state <- function (state, final_satate, problem) {
   result <- FALSE # Default value is FALSE.
 
-  result <- (sum(sapply(1:problem$c, function(i) setequal(state, problem$l[[i]]) & !any(state %in% problem$d[[i]]))) / problem$c) >= 0.3
+  result <- (sum(sapply(1:problem$c, function(i) all(problem$l[[i]] %in% state) & !any(state %in% problem$d[[i]]))) / problem$c) >= 0.3
     
   return(result)
 }
