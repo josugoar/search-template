@@ -18,7 +18,7 @@ initialize.problem <- function(filename) {
     line <- unlist(strsplit(lines[i], " "))
     n <- as.numeric(line[1]) + 1
     if (n == 1) {
-      ingredients <- list()
+      ingredients <- c()
     } else {
       ingredients <- line[2:n]
     }
@@ -33,7 +33,7 @@ initialize.problem <- function(filename) {
   
   # This attributes are compulsory
   problem$name              <- paste0("One Pizza - [", filename, "]")
-  problem$state_initial     <- list()
+  problem$state_initial     <- c()
   problem$state_final       <- NULL
   problem$actions_possible  <- data.frame(action = unique(unlist(l)), stringsAsFactors = FALSE)
   
@@ -59,6 +59,7 @@ effect <- function (state, action, problem) {
   result <- state # Default value is the current state.
   
   result <- append(state, action)
+  result <- sort(result)
   
   return(result)
 }
@@ -67,6 +68,7 @@ effect <- function (state, action, problem) {
 is.final.state <- function (state, final_satate, problem) {
   result <- FALSE # Default value is FALSE.
 
+  # TODO
   result <- (sum(sapply(1:problem$c, function(i) all(problem$l[[i]] %in% state) & !any(state %in% problem$d[[i]]))) / problem$c) >= 0.3
     
   return(result)
