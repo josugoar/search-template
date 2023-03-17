@@ -23,7 +23,7 @@ source("../algorithms/results-analysis/analyze-results.R")
 
 source("../problem/problem-template.R")
 
-problem <- initialize.problem("../data/one-pizza/a_an_example.in.txt") 
+problem <- initialize.problem("../data/one-pizza/a_an_example.in.txt", satisfied = 0.3) 
 
 bfs_ts <- breadth.first.search(problem, max_iterations = 2500, count_print = 1000)   
 bfs_gs <- breadth.first.search(problem, max_iterations = 2500, count_print = 1000, graph_search = TRUE)

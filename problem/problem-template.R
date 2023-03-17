@@ -9,38 +9,40 @@
 
 # This function must return a list with the information needed to solve the problem.
 # (Depending on the problem, it should receive or not parameters)
-initialize.problem <- function(filename) {
+initialize.problem <- function(filename, satisfied = 0.3) {
   lines <- readLines(filename)
-  c <- as.numeric(lines[1])
-  l <- list()
-  d <- list()
-  for (i in 2:(2 * c + 1)) {
+  customers <- as.numeric(lines[1])
+  likes <- list()
+  dislikes <- list()
+  for (i in 2:(2 * customers + 1)) {
     line <- unlist(strsplit(lines[i], " "))
-    n <- as.numeric(line[1]) + 1
-    if (n == 1) {
+    n <- as.numeric(line[1])
+    if (n == 0) {
       ingredients <- c()
     } else {
-      ingredients <- line[2:n]
+      ingredients <- line[2:(n + 1)]
     }
     if (i %% 2 == 0) {
-      l <- append(l, list(ingredients))
+      likes <- append(likes, list(ingredients))
     } else {
-      d <- append(d, list(ingredients))
+      dislikes <- append(dislikes, list(ingredients))
     }
   }
-
+  actions <- unique(unlist(likes))
+  
   problem <- list() # Default value is an empty list.
   
   # This attributes are compulsory
-  problem$name              <- paste0("One Pizza - [", filename, "]")
+  problem$name              <- paste0("One-pizza [filename = ", filename, " - Clients = ", customers, " - Diff. ingredients = ", length(actions), " - Satisfied = ", satisfied * 100,"%]")
   problem$state_initial     <- c()
   problem$state_final       <- NULL
-  problem$actions_possible  <- data.frame(action = unique(unlist(l)), stringsAsFactors = FALSE)
+  problem$actions_possible  <- data.frame(action = actions, stringsAsFactors = FALSE)
   
   # You can add additional attributes
-  problem$c  <- c
-  problem$l  <- l
-  problem$d  <- d
+  problem$satisfied  <- satisfied
+  problem$customers  <- customers
+  problem$likes      <- likes
+  problem$dislikes   <- dislikes
   
   return(problem)
 }
@@ -58,8 +60,7 @@ is.applicable <- function (state, action, problem) {
 effect <- function (state, action, problem) {
   result <- state # Default value is the current state.
   
-  result <- append(state, action)
-  result <- sort(result)
+  result <- sort(append(state, action))
   
   return(result)
 }
@@ -67,10 +68,9 @@ effect <- function (state, action, problem) {
 # Analyzes if a state is final or not
 is.final.state <- function (state, final_satate, problem) {
   result <- FALSE # Default value is FALSE.
-
-  # TODO
-  result <- (sum(sapply(1:problem$c, function(i) all(problem$l[[i]] %in% state) & !any(state %in% problem$d[[i]]))) / problem$c) >= 0.3
-    
+  
+  result <- get.satisfied(state, problem) >= problem$satisfied
+  
   return(result)
 }
 
@@ -82,12 +82,18 @@ to.string = function (state, problem) {
 
 # Returns the cost of applying an action over a state
 get.cost <- function (action, state, problem) {
-    
+  
   return(1) # Default value is 1.
 }
 
 # Heuristic function used by Informed Search Algorithms
 get.evaluation <- function(state, problem) {
-    
+  
+  return(1 - min(get.satisfied(state, problem), problem$satisfied) / problem$satisfied)
+  
 	return(1) # Default value is 1.
+}
+
+get.satisfied <- function (state, problem) {
+  return(sum(sapply(1:problem$c, function(i) all(problem$l[[i]] %in% state) & !any(state %in% problem$d[[i]]))) / problem$c)
 }
