@@ -12,6 +12,10 @@ library(magrittr)
 # Include algorithm functions
 source("../algorithms/blind/expand-node.R")
 source("../algorithms/informed/hill-climbing-search.R")
+source("../algorithms/informed/local-beam-search.R")
+source("../algorithms/informed/random-restart-hill-cllimbing.R")
+source("../algorithms/informed/stochastic-hill-cllimbing.R")
+source("../algorithms/informed/stochastic-random-restart.R")
 
 # Include functions for data analysis and result plot
 source("../algorithms/results-analysis/analyze-results.R")
