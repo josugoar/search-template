@@ -43,7 +43,7 @@ hill.climbing.search = function(problem,
     sucessor_nodes <- sucessor_nodes[order(sapply(sucessor_nodes,function (x) x$evaluation))]
     
     # Select best successor
-    node_best_successor <- sucessor_nodes[[1]]
+    node_best_successor <- sample(sucessor_nodes, 1)[[1]]
     
     # The best successor is better than current node
     if (node_best_successor$evaluation <= node_current$evaluation) {
