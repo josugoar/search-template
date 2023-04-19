@@ -1,7 +1,9 @@
-stochastic.hill.climbing = function(problem,
+stochastic.hill.climbing = function(file,
                                     max_iterations = 50, 
                                     count_print = 10, 
                                     trace = FALSE) {
+  
+  problem <- initialize.problem(file)
   
   name_method      <- paste0("Stochastic Hill Climbing Search")
   state_initial    <- problem$state_initial
@@ -39,6 +41,8 @@ stochastic.hill.climbing = function(problem,
     
     # Current node is expanded
     sucessor_nodes <- local.expand.node(node_current, actions_possible, problem)
+    # Successor nodes are sorted ascending order of the evaluation function
+    sucessor_nodes <- sucessor_nodes[sapply(sucessor_nodes,function (x) x$evaluation > node_current$evaluation)]
     
     # Select best successor
     node_best_successor <- sample(sucessor_nodes, 1)[[1]]
