@@ -23,6 +23,7 @@ source("../algorithms/results-analysis/analyze-results.R")
 # Include the problem
 source("../problem/p-hub-problem.R")
 
+# TODO
 # Execute several times and analyze results
 test <- function(file, p, times, f) {
   # Execute 'n' times
@@ -50,7 +51,7 @@ test <- function(file, p, times, f) {
                " - SD: ", round(sd(results_df$Runtime), 2)), quote = FALSE)
   
   # Print results in an HTML Table
-  kable_material(kbl(results_df, caption = paste(problem$name, deparse(substitute(f)), sep = " - ")),
+  kable_material(kbl(results_df, caption = paste(problem$name, sep = " - ")),
                  c("striped", "hover", "condensed", "responsive"))
 }
 
@@ -61,49 +62,17 @@ graphics.off()
 file        <- "../data/p-hub/AP40.txt"
 p           <- 4
 times       <- 5
-test(file, p, times, hill.climbing.search)
+test(file, p, times, function(problem) hill.climbing.search(problem))
+test(file, p, times, function(problem) local.beam.search(problem))
+test(file, p, times, function(problem) random.restart.hill.climbing(problem, file, p))
+test(file, p, times, function(problem) stochastic.hill.climbing(problem))
+test(file, p, times, function(problem) stochastic.random.restart.search(problem))
 
 file        <- "../data/p-hub/AP100.txt"
 p           <- 3
 times       <- 5
 test(file, p, times, hill.climbing.search)
-
-file        <- "../data/p-hub/AP40.txt"
-p           <- 4
-times       <- 5
 test(file, p, times, local.beam.search)
-
-file        <- "../data/p-hub/AP100.txt"
-p           <- 3
-times       <- 5
-test(file, p, times, local.beam.search)
-
-file        <- "../data/p-hub/AP40.txt"
-p           <- 4
-times       <- 5
-test(file, p, times, random.restart.hill.climbing.search)
-
-file        <- "../data/p-hub/AP100.txt"
-p           <- 3
-times       <- 5
-test(file, p, times, random.restart.hill.climbing.search)
-
-file        <- "../data/p-hub/AP40.txt"
-p           <- 4
-times       <- 5
-test(file, p, times, stochastic.hill.climbing.search)
-
-file        <- "../data/p-hub/AP100.txt"
-p           <- 3
-times       <- 5
-test(file, p, times, stochastic.hill.climbing.search)
-
-file        <- "../data/p-hub/AP40.txt"
-p           <- 4
-times       <- 5
-test(file, p, times, stochastic.random.restart.search)
-
-file        <- "../data/p-hub/AP100.txt"
-p           <- 3
-times       <- 5
+test(file, p, times, random.restart.hill.climbing)
+test(file, p, times, stochastic.hill.climbing)
 test(file, p, times, stochastic.random.restart.search)
