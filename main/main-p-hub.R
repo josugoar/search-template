@@ -13,8 +13,8 @@ library(magrittr)
 source("../algorithms/blind/expand-node.R")
 source("../algorithms/informed/hill-climbing-search.R")
 source("../algorithms/informed/local-beam-search.R")
-source("../algorithms/informed/random-restart-hill-cllimbing.R")
-source("../algorithms/informed/stochastic-hill-cllimbing.R")
+source("../algorithms/informed/random-restart-hill-climbing.R")
+source("../algorithms/informed/stochastic-hill-climbing.R")
 source("../algorithms/informed/stochastic-random-restart.R")
 
 # Include functions for data analysis and result plot
@@ -66,4 +66,44 @@ test(file, p, times, hill.climbing.search)
 file        <- "../data/p-hub/AP100.txt"
 p           <- 3
 times       <- 5
-test.hill.climbing(file, p, times, hill.climbing.search)
+test(file, p, times, hill.climbing.search)
+
+file        <- "../data/p-hub/AP40.txt"
+p           <- 4
+times       <- 5
+test(file, p, times, local.beam.search)
+
+file        <- "../data/p-hub/AP100.txt"
+p           <- 3
+times       <- 5
+test(file, p, times, local.beam.search)
+
+file        <- "../data/p-hub/AP40.txt"
+p           <- 4
+times       <- 5
+test(file, p, times, random.restart.hill.climbing.search)
+
+file        <- "../data/p-hub/AP100.txt"
+p           <- 3
+times       <- 5
+test(file, p, times, random.restart.hill.climbing.search)
+
+file        <- "../data/p-hub/AP40.txt"
+p           <- 4
+times       <- 5
+test(file, p, times, stochastic.hill.climbing.search)
+
+file        <- "../data/p-hub/AP100.txt"
+p           <- 3
+times       <- 5
+test(file, p, times, stochastic.hill.climbing.search)
+
+file        <- "../data/p-hub/AP40.txt"
+p           <- 4
+times       <- 5
+test(file, p, times, stochastic.random.restart.search)
+
+file        <- "../data/p-hub/AP100.txt"
+p           <- 3
+times       <- 5
+test(file, p, times, stochastic.random.restart.search)
