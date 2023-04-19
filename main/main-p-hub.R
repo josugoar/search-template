@@ -23,21 +23,17 @@ source("../algorithms/results-analysis/analyze-results.R")
 # Include the problem
 source("../problem/p-hub-problem.R")
 
-# Executes hill climbing search and return the results
-execute.hill.climbing <- function(filename, p) {
-  # Initialize problem
-  problem <- initialize.problem(p = p, filename = filename)
-  # Execute hill climbing
-  return(hill.climbing.search(problem = problem))
-}
-
-# Execute Hill Climbing several times and analyze results
-test.hill.climbing <- function(file, p, times) {
-  # Execute hill climbing 'n' times
+# Execute several times and analyze results
+test <- function(file, p, times, f) {
+  # Execute 'n' times
   results <- vector(mode = "list", length = times)
   
   for (i in 1:times) {
-    results[[i]] <- execute.hill.climbing(filename = file, p = p)
+    # Executes search and return the results
+    # Initialize problem
+    problem <- initialize.problem(p = p, filename = file)
+    # Execute
+    results[[i]] <-  f(problem = problem)
   }
   
   # Initialize a problem instance for the analysis
@@ -54,7 +50,7 @@ test.hill.climbing <- function(file, p, times) {
                " - SD: ", round(sd(results_df$Runtime), 2)), quote = FALSE)
   
   # Print results in an HTML Table
-  kable_material(kbl(results_df, caption = paste(problem$name, "hill.climbing", sep = " - ")),
+  kable_material(kbl(results_df, caption = paste(problem$name, deparse(substitute(f)), sep = " - ")),
                  c("striped", "hover", "condensed", "responsive"))
 }
 
@@ -65,9 +61,9 @@ graphics.off()
 file        <- "../data/p-hub/AP40.txt"
 p           <- 4
 times       <- 5
-test.hill.climbing(file, p, times)
+test(file, p, times, hill.climbing.search)
 
 file        <- "../data/p-hub/AP100.txt"
 p           <- 3
 times       <- 5
-test.hill.climbing(file, p, times)
+test.hill.climbing(file, p, times, hill.climbing.search)
