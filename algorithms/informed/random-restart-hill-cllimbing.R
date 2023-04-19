@@ -3,7 +3,7 @@ hill.climbing.search = function(problem,
                                 count_print = 10, 
                                 trace = FALSE) {
   
-  name_method      <- paste0("Hill Climbing Search")
+  name_method      <- paste0("Random Restart Hill Climbing Search")
   state_initial    <- problem$state_initial
   actions_possible <- problem$actions_possible
   
