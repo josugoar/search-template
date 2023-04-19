@@ -1,7 +1,8 @@
-hill.climbing.search = function(problem,
-                                max_iterations = 50, 
-                                count_print = 10, 
-                                trace = FALSE) {
+local.beam.search = function(problem,
+                             max_iterations = 50, 
+                             count_print = 10, 
+                             trace = FALSE,
+                             k = 1) {
   
   name_method      <- paste0("Local Beam Search")
   state_initial    <- problem$state_initial
