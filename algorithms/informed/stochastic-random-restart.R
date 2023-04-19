@@ -1,44 +1,42 @@
-stochastic.random.restart.search = function(problem,
-                                            max_iterations = 50, 
-                                            count_print = 10, 
-                                            trace = FALSE,
-                                            restarts = 0) {
+stochastic.random.restart = function(file,
+                                     restarts,
+                                     max_iterations = 50, 
+                                     count_print = 10, 
+                                     trace = FALSE) {
   
-  name_method      <- paste0("Stochastic Random Restart Search")
-  state_initial    <- problem$state_initial
-  actions_possible <- problem$actions_possible
+  name_method <- paste0("Stochastic Random Restart Hill Climbing Search")
   
   # Get Start time
-  start_time       <- Sys.time()
+  start_time  <- Sys.time()
   
-  result <- NULL
-  restart <- 0
+  state_final <- NULL
   
-  while (restart <= restarts) {
-    state_initial    <- problem$state_initial
-
-    while (sample(c(TRUE, FALSE), 1)) {
-      sucessor_nodes <- local.expand.node(state_initial, actions_possible, problem)
-      state_initial <- sample(successor_nodes, 1)
+  count <- 0
+  
+  while (count <= restarts) {
+    problem <- initialize.problem(file)
+    
+    result <- stochastic.hill.climbing(problem,
+                                       max_iterations = max_iterations,
+                                       count_print = count_print,
+                                       trace = trace)
+    
+    if (is.null(state_final) || result$state_final$evaluation <= state_final$evaluation) {
+      state_final <- result$state_final
+      report      <- result$report
     }
     
-    hill_climb_result <- stochastic.hill.climbing.search(problem,
-                                                         max_iterations = max_iterations,
-                                                         count_print = count_print,
-                                                         trace = trace)
-    
-    if (!is.null(result) && hill_climb_result$evaluation <= result$state_final$evaluation) {
-      result <- hill_climb_result
-    }
-    
-    restart <- restart + 1
+    count <- count + 1
   }
   
   # Get runtime
   end_time <- Sys.time()
   
-  result$name    <- name_method
-  result$runtime <- end_time - start_time
+  result <- list()
+  result$name        <- name_method
+  result$runtime     <- end_time - start_time
+  result$state_final <- state_final
+  result$report      <- report
   
   return(result)
 }
