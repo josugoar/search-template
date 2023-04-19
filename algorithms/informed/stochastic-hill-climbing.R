@@ -1,7 +1,7 @@
-hill.climbing.search = function(problem,
-                                max_iterations = 50, 
-                                count_print = 10, 
-                                trace = FALSE) {
+stochastic.hill.climbing = function(problem,
+                                    max_iterations = 50, 
+                                    count_print = 10, 
+                                    trace = FALSE) {
   
   name_method      <- paste0("Stochastic Hill Climbing Search")
   state_initial    <- problem$state_initial
