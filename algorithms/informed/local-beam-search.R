@@ -28,9 +28,7 @@ local.beam.search = function(problem,
                        depth_of_expanded = numeric())
   
   #Perform "max_iterations" iterations of the expansion process of the first node in the frontier list
-  while (count <= max_iterations) {
-    node_best_successors <- c()
-    
+  while (count <= max_iterations) {    
     # Print a search trace for each "count_print" iteration
     if (count %% count_print == 0) {
       print(paste0("Iteration: ", count, ", evaluation=", node_current$evaluation, " / cost=", node_current$cost), quote = FALSE)
@@ -47,7 +45,7 @@ local.beam.search = function(problem,
       # Current node is expanded
       sucessor_nodes <- c(sucessor_nodes, local.expand.node(node_current, actions_possible, problem))
     }
-
+    
     # Successor nodes are sorted ascending order of the evaluation function
     sucessor_nodes <- sucessor_nodes[order(sapply(sucessor_nodes,function (x) x$evaluation))]
     
@@ -57,7 +55,7 @@ local.beam.search = function(problem,
     node_current <- node_best_successors[order(sapply(node_best_successors,function (x) x$evaluation))][[1]]
     
     # The best successor is better than current node
-    if (length(nodes_current) != length(node_best_successors) || !all(sapply(1:beams,function (i) nodes_current[[i]]$evaluation == node_best_successors[[i]]$evaluation))) {
+    if (length(nodes_current) == length(node_best_successors) && all(sapply(1:beams,function (i) nodes_current[[i]]$evaluation != node_best_successors[[i]]$evaluation))) {
       # Current node is updated
       nodes_current <- node_best_successors
     # Local best found
