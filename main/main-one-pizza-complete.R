@@ -36,25 +36,27 @@ execute.local.beam.search <- function(filename) {
   # Initialize problem
   problem <- initialize.problem(filename = filename)
   # Execute local beam search
-  return(local.beam-search(problem = problem))
+  return(local.beam.search(problem = problem, 3))
 }
 
 # Executes random restart hill climbing search and return the results
 execute.random.restart.hill.climbing <- function(filename) {
   # Execute random restart hill climbing
-  return(random.restart.hill.climbing(file = filename))
+  return(random.restart.hill.climbing(file = filename, 5))
 }
 
 # Executes stochastic hill climbing search and return the results
 execute.stochastic.hill.climbing <- function(filename) {
+  # Initialize problem
+  problem <- initialize.problem(filename = filename)
   # Execute stochastic hill climbing
-  return(stochastic.hill.climbing.search(file = filename))
+  return(stochastic.hill.climbing(problem = problem, 5))
 }
 
 # Executes stochastic random restart search and return the results
 execute.stochastic.random.restart <- function(filename) {
   # Execute stochastic random restart
-  return(stochastic.random.restart(file = filename))
+  return(stochastic.random.restart(file = filename, 5))
 }
 
 # Execute several times and analyze results
@@ -89,15 +91,7 @@ cat("\014")
 graphics.off()
 
 file        <- "../data/one-pizza/a_an_example.in.txt"
-times       <- 5
-test(file, times, execute.hill.climbing)
-test(file, times, execute.local.beam.search)
-test(file, times, execute.random.restart.hill.climbing)
-test(file, times, execute.stochastic.hill.climbing)
-test(file, times, execute.stochastic.random.restart)
-
-file        <- "../data/one-pizza/b_basic.in.txt"
-times       <- 5
+times       <- 10
 test(file, times, execute.hill.climbing)
 test(file, times, execute.local.beam.search)
 test(file, times, execute.random.restart.hill.climbing)
