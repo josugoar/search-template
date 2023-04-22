@@ -10,6 +10,7 @@ random.restart.hill.climbing = function(file,
   start_time  <- Sys.time()
   
   state_final <- NULL
+  report      <- NULL
   
   count <- 0
   
