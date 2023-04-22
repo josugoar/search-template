@@ -18,7 +18,7 @@ local.beam.search = function(problem,
                        cost = get.cost(state = state_initial, problem = problem),
                        evaluation = get.evaluation(state_initial, problem))
   
-  nodes_current <- c(node_current)
+  nodes_current <- list(node_current)
   
   count <- 1
   end_reason <- 0
@@ -41,20 +41,23 @@ local.beam.search = function(problem,
       print(paste0("Iteration: ", count, ", evaluation=", node_current$evaluation, " / cost=", node_current$cost), quote = FALSE)
       to.string(state = node_current$state, problem = problem)
     }
+    
+    sucessor_nodes <- c()
     for (node_current in nodes_current) {
-    # Current node is expanded
-    sucessor_nodes <- local.expand.node(node_current, actions_possible, problem)
+      # Current node is expanded
+      sucessor_nodes <- c(sucessor_nodes, local.expand.node(node_current, actions_possible, problem))
+    }
+
     # Successor nodes are sorted ascending order of the evaluation function
     sucessor_nodes <- sucessor_nodes[order(sapply(sucessor_nodes,function (x) x$evaluation))]
     
     # Select best successors
-    node_best_successors <- c(node_best_successors, sucessor_nodes[1:beams])
-    }
-    node_best_successors <- sucessor_nodes[order(sapply(c(node_best_successors, nodes_current),function (x) x$evaluation))][1:beams]
-    node_current <- nodes_current[order(sapply(nodes_current,function (x) x$evaluation))][[1]]
+    node_best_successors <- sucessor_nodes[order(sapply(sucessor_nodes,function (x) x$evaluation))][1:beams]
+    
+    node_current <- node_best_successors[order(sapply(node_best_successors,function (x) x$evaluation))][[1]]
     
     # The best successor is better than current node
-    if (node_best_successors != nodes_current) {
+    if (length(nodes_current) != length(node_best_successors) || !all(sapply(1:beams,function (i) nodes_current[[i]]$evaluation == node_best_successors[[i]]$evaluation))) {
       # Current node is updated
       nodes_current <- node_best_successors
     # Local best found
