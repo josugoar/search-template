@@ -1,4 +1,3 @@
-# TODO
 local.beam.search = function(problem,
                              beams,
                              max_iterations = 50, 
