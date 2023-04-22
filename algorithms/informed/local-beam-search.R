@@ -18,6 +18,8 @@ local.beam.search = function(problem,
                        cost = get.cost(state = state_initial, problem = problem),
                        evaluation = get.evaluation(state_initial, problem))
   
+  nodes_current <- c(node_current)
+  
   count <- 1
   end_reason <- 0
   
@@ -27,6 +29,8 @@ local.beam.search = function(problem,
   
   #Perform "max_iterations" iterations of the expansion process of the first node in the frontier list
   while (count <= max_iterations) {
+    node_best_successors <- c()
+    
     # Print a search trace for each "count_print" iteration
     if (count %% count_print == 0) {
       print(paste0("Iteration: ", count, ", evaluation=", node_current$evaluation, " / cost=", node_current$cost), quote = FALSE)
@@ -37,25 +41,22 @@ local.beam.search = function(problem,
       print(paste0("Iteration: ", count, ", evaluation=", node_current$evaluation, " / cost=", node_current$cost), quote = FALSE)
       to.string(state = node_current$state, problem = problem)
     }
-    
+    for (node_current in nodes_current) {
     # Current node is expanded
     sucessor_nodes <- local.expand.node(node_current, actions_possible, problem)
     # Successor nodes are sorted ascending order of the evaluation function
     sucessor_nodes <- sucessor_nodes[order(sapply(sucessor_nodes,function (x) x$evaluation))]
     
-    # Select best successor
-    node_best_successor <- sucessor_nodes[[1]]
+    # Select best successors
+    node_best_successors <- c(node_best_successors, sucessor_nodes[1:beams])
+    }
+    node_best_successors <- sucessor_nodes[order(sapply(c(node_best_successors, nodes_current),function (x) x$evaluation))][1:beams]
+    node_current <- nodes_current[order(sapply(nodes_current,function (x) x$evaluation))][[1]]
     
     # The best successor is better than current node
-    if (node_best_successor$evaluation <= node_current$evaluation) {
+    if (node_best_successors != nodes_current) {
       # Current node is updated
-      node_current <- node_best_successor
-      
-      #If "trace" is on, the information of the new current node is displayed
-      if (trace){
-        print(paste0("Iteration: ", count, ", evaluation=", node_current$evaluation, " / cost=", node_current$cost), quote = FALSE)
-        to.string(state = node_current$state, problem = problem)
-      }
+      nodes_current <- node_best_successors
     # Local best found
     } else {
       # Algorithm stops because a local best has been found
