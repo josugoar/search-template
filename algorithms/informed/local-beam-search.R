@@ -52,10 +52,12 @@ local.beam.search = function(problem,
     # Select best successors
     node_best_successors <- sucessor_nodes[order(sapply(sucessor_nodes,function (x) x$evaluation))][1:beams]
     
+    node_best_successors[sapply(node_best_successors, is.null)] <- NULL
+    
     node_current <- node_best_successors[order(sapply(node_best_successors,function (x) x$evaluation))][[1]]
     
     # The best successor is better than current node
-    if (length(nodes_current) == length(node_best_successors) && all(sapply(1:beams,function (i) nodes_current[[i]]$evaluation != node_best_successors[[i]]$evaluation))) {
+    if (length(nodes_current) != length(node_best_successors) || all(sapply(1:beams,function (i) nodes_current[[i]]$evaluation != node_best_successors[[i]]$evaluation))) {
       # Current node is updated
       nodes_current <- node_best_successors
     # Local best found
