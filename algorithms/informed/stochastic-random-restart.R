@@ -10,6 +10,7 @@ stochastic.random.restart = function(file,
   start_time  <- Sys.time()
   
   state_final <- NULL
+  report      <- NULL
   
   count <- 0
   
