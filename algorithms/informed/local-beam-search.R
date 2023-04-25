@@ -50,7 +50,7 @@ local.beam.search = function(problem,
     sucessor_nodes <- sucessor_nodes[order(sapply(sucessor_nodes,function (x) x$evaluation))]
     
     # Select best successors
-    node_best_successors <- sucessor_nodes[order(sapply(sucessor_nodes,function (x) x$evaluation))][1:beams]
+    node_best_successors <- sucessor_nodes[1:beams]
     
     node_best_successors[sapply(node_best_successors, is.null)] <- NULL
     
