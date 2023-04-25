@@ -54,7 +54,7 @@ local.beam.search = function(problem,
     
     node_best_successors[sapply(node_best_successors, is.null)] <- NULL
     
-    node_current <- node_best_successors[order(sapply(node_best_successors,function (x) x$evaluation))][[1]]
+    node_current <- node_best_successors[[1]]
     
     # The best successor is better than current node
     if (length(nodes_current) != length(node_best_successors) || all(sapply(1:beams,function (i) nodes_current[[i]]$evaluation != node_best_successors[[i]]$evaluation))) {
