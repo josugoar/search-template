@@ -39,22 +39,11 @@ stochastic.hill.climbing = function(problem,
     
     # Current node is expanded
     sucessor_nodes <- local.expand.node(node_current, actions_possible, problem)
+    # The successors are better than current node
+    sucessor_nodes <- sucessor_nodes[order(sapply(sucessor_nodes,function (x) x$evaluation < node_current$evaluation))]
     
-    # Select best successor
-    node_best_successor <- sample(sucessor_nodes, 1)[[1]]
-    
-    # The best successor is better than current node
-    if (node_best_successor$evaluation <= node_current$evaluation) {
-      # Current node is updated
-      node_current <- node_best_successor
-      
-      #If "trace" is on, the information of the new current node is displayed
-      if (trace){
-        print(paste0("Iteration: ", count, ", evaluation=", node_current$evaluation, " / cost=", node_current$cost), quote = FALSE)
-        to.string(state = node_current$state, problem = problem)
-      }
     # Local best found
-    } else {
+    if (length(sucessor_nodes)) {
       # Algorithm stops because a local best has been found
       end_reason <- "Local_Best"
       
@@ -63,6 +52,18 @@ stochastic.hill.climbing = function(problem,
                                          depth_of_expanded = node_current$depth))
       
       break
+    }
+    
+    # Select random successor
+    node_best_successor <- sample(sucessor_nodes, 1)[[1]]
+    
+    # Current node is updated
+    node_current <- node_best_successor
+    
+    #If "trace" is on, the information of the new current node is displayed
+    if (trace){
+      print(paste0("Iteration: ", count, ", evaluation=", node_current$evaluation, " / cost=", node_current$cost), quote = FALSE)
+      to.string(state = node_current$state, problem = problem)
     }
     
     #Add of information for further analysis
