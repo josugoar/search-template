@@ -46,7 +46,7 @@ hill.climbing.search = function(problem,
     node_best_successor <- sucessor_nodes[[1]]
     
     # The best successor is better than current node
-    if (node_best_successor$evaluation <= node_current$evaluation) {
+    if (node_best_successor$evaluation < node_current$evaluation) {
       # Current node is updated
       node_current <- node_best_successor
       
