@@ -16,13 +16,12 @@ random.restart.hill.climbing = function(file,
   
   while (count <= restarts) {
     problem <- initialize.problem(file)
-    
     result <- hill.climbing.search(problem,
                                    max_iterations = max_iterations,
                                    count_print = count_print,
                                    trace = trace)
     
-    if (is.null(state_final) || result$state_final$evaluation <= state_final$evaluation) {
+    if (is.null(state_final) || result$state_final$evaluation < state_final$evaluation) {
       state_final <- result$state_final
       report      <- result$report
     }

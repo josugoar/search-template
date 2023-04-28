@@ -16,7 +16,6 @@ stochastic.random.restart = function(file,
   
   while (count <= restarts) {
     problem <- initialize.problem(file)
-    
     result <- stochastic.hill.climbing(problem,
                                        max_iterations = max_iterations,
                                        count_print = count_print,
